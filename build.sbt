@@ -17,15 +17,15 @@ ThisBuild / developers :=
     ),
   )
 
-// ThisBuild / publishMavenStyle := true
-// ThisBuild / publishTo         := sonatypePublishToBundle.value
-
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
 lazy val core = (project in file("./core")).settings(
-  name             := "zio-tg-bot-api-core",
-  idePackagePrefix := Some("org.mdatools.core"),
+  name := "zio-tg-bot-api-core",
+  libraryDependencies ++= Dependencies.core,
 )
 
-lazy val library = (project in file("."))
-  .settings(name := "zio-tg-bot-api", idePackagePrefix := Some("org.mdatools"))
+lazy val library = (project in file(".")).dependsOn(core)
+
+lazy val example = (project in file("./example"))
+  .settings(name := "zio-tg-bot-api-example")
+  .dependsOn(library)
